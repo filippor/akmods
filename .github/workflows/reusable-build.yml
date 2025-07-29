@@ -96,7 +96,7 @@ jobs:
         run: "echo 'Kernel Cache not found for key: ${{ env.KCKEY }}'; exit 1"
 
       - name: Retrieve Signing Key
-        if: contains(fromJson('["schedule", "workflow_dispatch", "merge_group"]'), github.event_name)
+        #if: contains(fromJson('["schedule", "workflow_dispatch", "merge_group"]'), github.event_name)
         shell: bash
         run: |
           mkdir -p certs
