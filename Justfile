@@ -106,9 +106,9 @@ get-kernel-version:
     case {{ kernel_flavor }} in
         "bazzite")
             if [[ -n "{{ bazzite_tag }}" ]]; then
-                latest="$(curl -s "https://api.github.com/repos/bazzite-org/kernel-bazzite/releases/tags/{{ bazzite_tag }}" )"
+                latest="$(curl -s "https://api.github.com/repos/filippor/kernel-bazzite/releases/tags/{{ bazzite_tag }}" )"
             else
-                latest="$(curl -s "https://api.github.com/repos/bazzite-org/kernel-bazzite/releases/latest")"
+                latest="$(curl -s "https://api.github.com/repos/filippor/kernel-bazzite/releases/latest")"
             fi
             linux=$(echo "$latest" | jq -r '.assets[].name | match("kernel-.*fc{{ version }}.{{ arch() }}.rpm").string' | head -1 | sed "s/kernel-//g;s/.rpm//g")
             build_tag=$(echo -E $latest | jq -r '.tag_name')
