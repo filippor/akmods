@@ -252,11 +252,11 @@ build: (cache-kernel-version) (fetch-kernel)
         "--label" "io.artifacthub.package.keywords=bootc,fedora,bluefin,bazzite,centos,cayo,aurora,ublue,universal-blue"
         "--label" "io.artifacthub.package.logo-url=https://avatars.githubusercontent.com/u/120078124?s=200&v=4"
         "--label" "io.artifacthub.package.maintainers=[{\"name\": \"castrojo\", \"email\": \"jorge.castro@gmail.com\"}]"
-        "--label" "io.artifacthub.package.readme-url=https://raw.githubusercontent.com/filippor/akmods/refs/heads/main/README.md"
+        "--label" "io.artifacthub.package.readme-url=https://raw.githubusercontent.com/ublue-os/akmods/refs/heads/main/README.md"
         "--label" "org.opencontainers.image.created={{ datetime_utc('%Y-%m-%dT%H:%M:%SZ') }}"
         "--label" "org.opencontainers.image.description='{{ _description }}'"
         "--label" "org.opencontainers.image.license=Apache-2.0"
-        "--label" "org.opencontainers.image.source=https://raw.githubusercontent.com/filippor/akmods/refs/heads/main/Containerfile.in"
+        "--label" "org.opencontainers.image.source=https://raw.githubusercontent.com/ublue-os/akmods/refs/heads/main/Containerfile.in"
         "--label" "org.opencontainers.image.title={{ akmods_name }}"
         "--label" "org.opencontainers.image.url=https://github.com/{{ _org / _repo }}"
         "--label" "org.opencontainers.image.vendor='{{ _org }}'"
@@ -316,7 +316,6 @@ push:
     declare -a TAGS=($({{ podman }} image list {{ 'localhost' / akmods_name + ':' + kernel_flavor + '-' + version + '-' + arch() }} --noheading --format 'table {{{{ .Tag }}'))
     for tag in "${TAGS[@]}"; do
         for i in {1..5}; do
-            cat /etc/ublue-os-param-file.yaml
             {{ podman }} push {{ if env('COSIGN_PRIVATE_KEY', '') != '' { '--sign-by-sigstore=/etc/ublue-os-param-file.yaml' } else { '' } }} "{{ 'localhost' / akmods_name + ':' + kernel_flavor + '-' + version + '-' + arch() }}" "{{ transport + registry / _org / akmods_name }}:$tag" && break || sleep $((5 * i));
             if [[ $i -eq '5' ]]; then
                 exit 1
@@ -340,11 +339,11 @@ manifest:
         "io.artifacthub.package.keywords=bootc,fedora,bluefin,bazzite,centos,cayo,aurora,ublue,universal-blue"
         "io.artifacthub.package.logo-url=https://avatars.githubusercontent.com/u/120078124?s=200&v=4"
         "io.artifacthub.package.maintainers=[{\"name\": \"castrojo\", \"email\": \"jorge.castro@gmail.com\"}]"
-        "io.artifacthub.package.readme-url=https://raw.githubusercontent.com/filippor/akmods/refs/heads/main/README.md"
+        "io.artifacthub.package.readme-url=https://raw.githubusercontent.com/ublue-os/akmods/refs/heads/main/README.md"
         "org.opencontainers.image.created={{ datetime_utc('%Y-%m-%dT%H:%M:%SZ') }}"
         "org.opencontainers.image.description={{ _description }}"
         "org.opencontainers.image.license=Apache-2.0"
-        "org.opencontainers.image.source=https://raw.githubusercontent.com/filippor/akmods/refs/heads/main/Containerfile.in"
+        "org.opencontainers.image.source=https://raw.githubusercontent.com/ublue-os/akmods/refs/heads/main/Containerfile.in"
         "org.opencontainers.image.title={{ akmods_name }}"
         "org.opencontainers.image.url=https://github.com/{{ _org / _repo }}"
         "org.opencontainers.image.vendor={{ _org }}"
@@ -373,7 +372,6 @@ manifest:
 
     # Push Manifest
     for i in {1..5}; do
-        cat ublue-os-param-file.yaml1
         {{ podman }} manifest push --all {{ if env('COSIGN_PRIVATE_KEY', '') != '' { '--sign-by-sigstore=/etc/ublue-os-param-file.yaml' } else { '' } }} {{ 'ghcr.io' / _org / akmods_name + ':' + kernel_flavor + '-' + version }} && break || sleep $((5 * i));
         if [[ $i -eq '5' ]]; then
             exit 1
@@ -382,7 +380,6 @@ manifest:
     {{ if env('CI', '') != '' { 'log_sum "' + registry / _org / akmods_name + ':' + kernel_flavor + '-' + version + '"' } else { '' } }}
 
     for i in {1..5}; do
-        cat ublue-os-param-file.yaml
         {{ podman }} manifest push --all {{ if env('COSIGN_PRIVATE_KEY', '') != '' { '--sign-by-sigstore=/etc/ublue-os-param-file.yaml' } else { '' } }} {{ 'ghcr.io' / _org / akmods_name + ':' + kernel_flavor + '-' + version + '-' + replace_regex(shell("jq -r '.kernel_release' < $1", version_json), '.x86_64|.aarch64', '' ) }} && break || sleep $((5 * i));
         if [[ $i -eq '5' ]]; then
             exit 1
