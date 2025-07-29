@@ -20,7 +20,7 @@ Each of these images contains a cached copy of the respective kernel RPMs compat
 
 Builds also run for different kernels:
 
-- `bazzite` - Bazzite [builds a kernel with gaming specific patches](https://github.com/bazzite-org/kernel-bazzite) for the current release of Fedora
+- `bazzite` - Bazzite [builds a kernel with gaming specific patches](https://github.com/filippor/kernel-bazzite) for the current release of Fedora
 - `main` - Mainline Fedora Kernel
 - `coreos-stable` - Current Fedora CoreOS stable kernel version
 - `coreos-testing` - Current Fedora CoreOS testing kernel version

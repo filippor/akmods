@@ -38,17 +38,17 @@ esac
 
 if [[ "${kernel_flavor}" == "bazzite" ]]; then
     # Using curl for bazzite release
-    curl -#fLO https://github.com/bazzite-org/kernel-bazzite/releases/download/"$build_tag"/kernel-"$kernel_version".rpm
-    curl -#fLO https://github.com/bazzite-org/kernel-bazzite/releases/download/"$build_tag"/kernel-core-"$kernel_version".rpm
-    curl -#fLO https://github.com/bazzite-org/kernel-bazzite/releases/download/"$build_tag"/kernel-modules-"$kernel_version".rpm
-    curl -#fLO https://github.com/bazzite-org/kernel-bazzite/releases/download/"$build_tag"/kernel-modules-core-"$kernel_version".rpm
-    curl -#fLO https://github.com/bazzite-org/kernel-bazzite/releases/download/"$build_tag"/kernel-modules-extra-"$kernel_version".rpm
-    curl -#fLO https://github.com/bazzite-org/kernel-bazzite/releases/download/"$build_tag"/kernel-devel-"$kernel_version".rpm
-    curl -#fLO https://github.com/bazzite-org/kernel-bazzite/releases/download/"$build_tag"/kernel-devel-matched-"$kernel_version".rpm
-    curl -#fLO https://github.com/bazzite-org/kernel-bazzite/releases/download/"$build_tag"/kernel-tools-"$kernel_version".rpm
-    curl -#fLO https://github.com/bazzite-org/kernel-bazzite/releases/download/"$build_tag"/kernel-tools-libs-"$kernel_version".rpm
-    # curl -#fLO https://github.com/bazzite-org/kernel-bazzite/releases/download/"$build_tag"/kernel-uki-virt-"$kernel_version".rpm
-    # curl -LO https://github.com/bazzite-org/kernel-bazzite/releases/download/"$build_tag"/kernel-uki-virt-addons-"$kernel_version".rpm
+    curl -#fLO https://github.com/filippor/kernel-bazzite/releases/download/"$build_tag"/kernel-"$kernel_version".rpm
+    curl -#fLO https://github.com/filippor/kernel-bazzite/releases/download/"$build_tag"/kernel-core-"$kernel_version".rpm
+    curl -#fLO https://github.com/filippor/kernel-bazzite/releases/download/"$build_tag"/kernel-modules-"$kernel_version".rpm
+    curl -#fLO https://github.com/filippor/kernel-bazzite/releases/download/"$build_tag"/kernel-modules-core-"$kernel_version".rpm
+    curl -#fLO https://github.com/filippor/kernel-bazzite/releases/download/"$build_tag"/kernel-modules-extra-"$kernel_version".rpm
+    curl -#fLO https://github.com/filippor/kernel-bazzite/releases/download/"$build_tag"/kernel-devel-"$kernel_version".rpm
+    curl -#fLO https://github.com/filippor/kernel-bazzite/releases/download/"$build_tag"/kernel-devel-matched-"$kernel_version".rpm
+    curl -#fLO https://github.com/filippor/kernel-bazzite/releases/download/"$build_tag"/kernel-tools-"$kernel_version".rpm
+    curl -#fLO https://github.com/filippor/kernel-bazzite/releases/download/"$build_tag"/kernel-tools-libs-"$kernel_version".rpm
+    # curl -#fLO https://github.com/filippor/kernel-bazzite/releases/download/"$build_tag"/kernel-uki-virt-"$kernel_version".rpm
+    # curl -LO https://github.com/filippor/kernel-bazzite/releases/download/"$build_tag"/kernel-uki-virt-addons-"$kernel_version".rpm
 elif [[ "${kernel_flavor}" == "centos" ]]; then
     # Using curl instead of dnf download for https links
     curl -#fLO https://mirror.stream.centos.org/"$CENTOS_VER"-stream/BaseOS/"$ARCH"/os/Packages/kernel-"$kernel_version".rpm
