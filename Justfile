@@ -316,10 +316,7 @@ push:
     declare -a TAGS=($({{ podman }} image list {{ 'localhost' / akmods_name + ':' + kernel_flavor + '-' + version + '-' + arch() }} --noheading --format 'table {{{{ .Tag }}'))
     for tag in "${TAGS[@]}"; do
         for i in {1..5}; do
-            echo "$COSIGN_PRIVATE_KEY"
-            cat /etc/ublue-os-param-file.yaml
-            cat /tmp/cosign.key
-            {{ podman }} push {{ if env('COSIGN_PRIVATE_KEY', '') != '' { '--sign-by-sigstore=/etc/ublue-os-param-file.yaml' } else { '' } }} "{{ 'localhost' / akmods_name + ':' + kernel_flavor + '-' + version + '-' + arch() }}" "{{ transport + registry / _org / akmods_name }}:$tag" && break || sleep $((5 * i));
+            {{ podman }} push {{ if env('COSIGN_PRIVATE_KEY', '') != '' { 'fil--sign-by-sigstore-private-key=/tmp/cosign.key' } else { '' } }} "{{ 'localhost' / akmods_name + ':' + kernel_flavor + '-' + version + '-' + arch() }}" "{{ transport + registry / _org / akmods_name }}:$tag" && break || sleep $((5 * i));
             if [[ $i -eq '5' ]]; then
                 exit 1
             fi
@@ -375,10 +372,7 @@ manifest:
 
     # Push Manifest
     for i in {1..5}; do
-        echo "$COSIGN_PRIVATE_KEY"
-        cat /etc/ublue-os-param-file.yaml
-        cat /tmp/cosign.key
-        {{ podman }} manifest push --all {{ if env('COSIGN_PRIVATE_KEY', '') != '' { '--sign-by-sigstore=/etc/ublue-os-param-file.yaml' } else { '' } }} {{ 'ghcr.io' / _org / akmods_name + ':' + kernel_flavor + '-' + version }} && break || sleep $((5 * i));
+        {{ podman }} manifest push --all {{ if env('COSIGN_PRIVATE_KEY', '') != '' { 'fil--sign-by-sigstore-private-key=/tmp/cosign.key' } else { '' } }} {{ 'ghcr.io' / _org / akmods_name + ':' + kernel_flavor + '-' + version }} && break || sleep $((5 * i));
         if [[ $i -eq '5' ]]; then
             exit 1
         fi
@@ -386,10 +380,7 @@ manifest:
     {{ if env('CI', '') != '' { 'log_sum "' + registry / _org / akmods_name + ':' + kernel_flavor + '-' + version + '"' } else { '' } }}
 
     for i in {1..5}; do
-        echo "$COSIGN_PRIVATE_KEY"
-        cat /etc/ublue-os-param-file.yaml
-        cat /tmp/cosign.key
-        {{ podman }} manifest push --all {{ if env('COSIGN_PRIVATE_KEY', '') != '' { '--sign-by-sigstore=/etc/ublue-os-param-file.yaml' } else { '' } }} {{ 'ghcr.io' / _org / akmods_name + ':' + kernel_flavor + '-' + version + '-' + replace_regex(shell("jq -r '.kernel_release' < $1", version_json), '.x86_64|.aarch64', '' ) }} && break || sleep $((5 * i));
+        {{ podman }} manifest push --all {{ if env('COSIGN_PRIVATE_KEY', '') != '' { 'fil--sign-by-sigstore-private-key=/tmp/cosign.key' } else { '' } }} {{ 'ghcr.io' / _org / akmods_name + ':' + kernel_flavor + '-' + version + '-' + replace_regex(shell("jq -r '.kernel_release' < $1", version_json), '.x86_64|.aarch64', '' ) }} && break || sleep $((5 * i));
         if [[ $i -eq '5' ]]; then
             exit 1
         fi
